@@ -15,6 +15,7 @@ Comment fonctionne les tests ?
   let votedCountBefore = (await this.VotingInstance.ProposalMap(1))[1];
 
   let proposal = (await this.VotingInstance.ProposalMap(1))[0];
+
   //------Récupère les variables avant l'appel de la fonction
 
   //------Appel de la fonction
@@ -27,13 +28,18 @@ Comment fonctionne les tests ?
   let votedCountAfter = (await this.VotingInstance.ProposalMap(1))[1];
 
   let winner = await this.VotingInstance.winner();
+
   //------Récupère les variables après l'appel de la fonction
 
   //Va ensuite comparé les variables avant et après
 
   expect(hasVotedAfter).to.be.equal(true);
-  //------Ici on sait que l'appel de la fonction va ajouter 1 au voteCount votedCountAfter doit donc être égal à votedCountBefore + 1
+
+  //------Ici on sait que l'appel de la fonction va ajouter 1 au voteCount
+  votedCountAfter doit donc être égal à votedCountBefore + 1
+
   expect(votedCountAfter).to.be.bignumber.equal(votedCountBefore.add(new BN(1)));
 
   expect(proposalIdAfter).to.be.bignumber.equal(proposalIdBefore.add(new BN(1)));
+
   expect(winner).to.be.equal(proposal);
