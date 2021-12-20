@@ -26,8 +26,6 @@ Comment fonctionne les tests ?
 
   await this.VotingInstance.sendVote(1, { from: owner });
 
-  //------
-
   //------Récupère les variables après l'appel de la fonction
   let hasVotedAfter = (await this.VotingInstance.VoterMap(owner))[1];
 
@@ -47,10 +45,6 @@ Comment fonctionne les tests ?
 
   expect(votedCountAfter).to.be.bignumber.equal(votedCountBefore.add(new BN(1)));
 
-  //------
-
   expect(proposalIdAfter).to.be.bignumber.equal(proposalIdBefore.add(new BN(1)));
 
   expect(winner).to.be.equal(proposal);
-
-  //------
