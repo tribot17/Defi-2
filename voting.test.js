@@ -1,10 +1,11 @@
-const { BN, ether } = require("@openzeppelin/test-helpers");
+const { BN } = require("@openzeppelin/test-helpers");
 const { expect } = require("chai");
 const Voting = artifacts.require("Voting");
 
 contract("Voting", function (accounts) {
   const owner = accounts[0];
 
+  //Avant chaque test créer une nouvelle instance du contract neuve
   beforeEach(async function () {
     this.VotingInstance = await Voting.new({ from: owner });
   });
@@ -46,6 +47,25 @@ contract("Voting", function (accounts) {
     );
   });
 
+  it("Passe de l'état ProposalsRegistrationEnded à VotingSessionStarted", async function () {
+    await this.VotingInstance.startProposalsSession();
+    await this.VotingInstance.endProposalsSession();
+
+    let statusBefore = await this.VotingInstance.workflowStatus();
+
+    await this.VotingInstance.startVoteSession();
+
+    let statusAfter = await this.VotingInstance.workflowStatus();
+
+    expect(statusBefore).to.be.a.bignumber.equal(
+      await new BN(Voting.enums.WorkflowStatus.ProposalsRegistrationEnded)
+    );
+    expect(statusAfter).to.be.a.bignumber.equal(
+      await new BN(Voting.enums.WorkflowStatus.VotingSessionStarted)
+    );
+  });
+
+
   it("Passe de l'état VotingSessionStarted à VotingSessionEnded", async function () {
     await this.VotingInstance.startProposalsSession();
     await this.VotingInstance.endProposalsSession();
@@ -62,24 +82,6 @@ contract("Voting", function (accounts) {
     );
     expect(statusAfter).to.be.a.bignumber.equal(
       await new BN(Voting.enums.WorkflowStatus.VotingSessionEnded)
-    );
-  });
-
-  it("Passe de l'état ProposalsRegistrationEnded à VotingSessionStarted", async function () {
-    await this.VotingInstance.startProposalsSession();
-    await this.VotingInstance.endProposalsSession();
-
-    let statusBefore = await this.VotingInstance.workflowStatus();
-
-    await this.VotingInstance.startVoteSession();
-
-    let statusAfter = await this.VotingInstance.workflowStatus();
-
-    expect(statusBefore).to.be.a.bignumber.equal(
-      await new BN(Voting.enums.WorkflowStatus.ProposalsRegistrationEnded)
-    );
-    expect(statusAfter).to.be.a.bignumber.equal(
-      await new BN(Voting.enums.WorkflowStatus.VotingSessionStarted)
     );
   });
 
