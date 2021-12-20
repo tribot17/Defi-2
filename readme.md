@@ -27,6 +27,7 @@ Comment fonctionne les tests ?
   await this.VotingInstance.sendVote(1, { from: owner });
 
   //------Récupère les variables après l'appel de la fonction
+
   let hasVotedAfter = (await this.VotingInstance.VoterMap(owner))[1];
 
   let proposalIdAfter = (await this.VotingInstance.VoterMap(owner))[2];
