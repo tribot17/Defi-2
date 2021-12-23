@@ -14,19 +14,17 @@ Comment fonctionne les tests ?
 
   //------Récupère les variables avant l'appel de la fonction
 
-  //Accède à la 3eme valeur de la structure VoterMap (proposalId)
+  //------Accède à la 3eme valeur de la structure VoterMap (proposalId)
 
   let proposalIdBefore = (await this.VotingInstance.VoterMap(owner))[2];
 
-  //Accède à la 2eme valeur de la structure VoterMap (hasVoted)
+  //------Accède à la 2eme valeur de la structure VoterMap (hasVoted)
 
   let votedCountBefore = (await this.VotingInstance.ProposalMap(1))[1];
 
-  //Accède à la 1er valeur de la structure ProposalMap (proposal)
+  //------Accède à la 1er valeur de la structure ProposalMap (proposal)
 
   let proposal = (await this.VotingInstance.ProposalMap(1))[0];
-
-  //------
 
   //------Appel de la fonction
 
