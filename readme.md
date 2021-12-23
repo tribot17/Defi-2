@@ -7,16 +7,22 @@ Mise en place de tous les tests :
 
 Comment fonctionne les tests ?
 
-- Avant chaque test une nouvelle instance du contract neuve est créer afin d'être sur que le test soit "clean"
+- Avant chaque test une nouvelle instance neuve du contract est créée afin d'être sur que le test soit "clean"
 
-- Les tests vont récupéré les variables du contract pour ensuite les comparé avant et après l'appel de la fonction
+- Les tests vont récupéré les variables du contract pour ensuite les comparer avant et après l'appel de la fonction
   Example :
 
   //------Récupère les variables avant l'appel de la fonction
 
+  //Accède à la 3eme valeur de la structure VoterMap (proposalId)
+
   let proposalIdBefore = (await this.VotingInstance.VoterMap(owner))[2];
 
+  //Accède à la 2eme valeur de la structure VoterMap (hasVoted)
+
   let votedCountBefore = (await this.VotingInstance.ProposalMap(1))[1];
+
+  //Accède à la 1er valeur de la structure ProposalMap (proposal)
 
   let proposal = (await this.VotingInstance.ProposalMap(1))[0];
 
@@ -42,7 +48,7 @@ Comment fonctionne les tests ?
 
   expect(hasVotedAfter).to.be.equal(true);
 
-  //------Ici on sait que l'appel de la fonction va ajouter 1 au voteCount votedCountAfter doit donc être égal à votedCountBefore + 1
+  //------Ici on sait que l'appel de la fonction va ajouter 1 au voteCount, donc votedCountAfter doit être égal à votedCountBefore + 1 (il est important de préciser bignumber car votedCountAfter retourne un bignumber il faut donc aussi convertir la valeur qu'on ajoute en bignumber)
 
   expect(votedCountAfter).to.be.bignumber.equal(votedCountBefore.add(new BN(1)));
 
