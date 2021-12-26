@@ -4,6 +4,7 @@ Mise en place de tous les tests :
 
 - Dans un 1er temps on test tous les changements d'état (WorkflowStatus)
 - Dans un 2nd temps on test toutes les différentes fonctions
+- Dans un 3eme temps on test tous les cas "revert", ou la fonction ne fonctionne pas
 
 Comment fonctionne les tests ?
 
@@ -42,6 +43,9 @@ Comment fonctionne les tests ?
 
   //------
 
+  //------On vérifie que la fonction émette un évenement.
+  expectEvent(receipt, "Voted", {voter: owner, proposalId:new BN(1)});
+
   //------Va ensuite comparé les variables avant et après ou avec la valeur attendue
 
   expect(hasVotedAfter).to.be.equal(true);
@@ -53,3 +57,21 @@ Comment fonctionne les tests ?
   expect(proposalIdAfter).to.be.bignumber.equal(proposalIdBefore.add(new BN(1)));
 
   expect(winner).to.be.equal(proposal);
+
+Comment vérifie qu'un test est sensé echouer ?
+
+- Le processus est similaire à celui des tests mais au lieu d'utiliser la fonction expect nous allons utiliser expectRevert car on s'attend à avoir un revert
+
+- example :
+
+  await this.VotingInstance.addWhiteList(owner);
+
+  await this.VotingInstance.startProposalsSession();
+
+  await this.VotingInstance.sendProposal("Salut", { from: owner });
+
+  await this.VotingInstance.endProposalsSession();
+  //------On va à l'étape qu'on veut
+
+  //------Ensuite on appelle la fonction qui est sensé echouer avec en second arguments le message d'erreur attendu
+  await expectRevert(this.VotingInstance.sendVote(1, { from: owner }), "The session doesn't have started yet");
