@@ -10,7 +10,11 @@ Comment fonctionne les tests ?
 
 - Avant chaque test une nouvelle instance neuve du contract est créée afin d'être sur que le test soit "clean"
 
+<<<<<<< HEAD
 - Les tests vont récupérer les variables du contract pour ensuite les comparer avant et après l'appel de la fonction
+=======
+- Les tests vont récupéré les variables du contract pour ensuite les comparer avant et après l'appel de la fonction
+>>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   Example :
 
   //------Récupère les variables avant l'appel de la fonction
@@ -43,8 +47,12 @@ Comment fonctionne les tests ?
 
   //------
 
+<<<<<<< HEAD
   //------On vérifie que la fonction émette l'évenement attendu.
 
+=======
+  //------On vérifie que la fonction émette un évenement.
+>>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   expectEvent(receipt, "Voted", {voter: owner, proposalId:new BN(1)});
 
   //------Va ensuite comparé les variables avant et après ou avec la valeur attendue
@@ -63,7 +71,11 @@ Comment vérifie qu'un test est sensé echouer ?
 
 - Le processus est similaire à celui des tests mais au lieu d'utiliser la fonction expect nous allons utiliser expectRevert car on s'attend à avoir un revert
 
+<<<<<<< HEAD
 - exemple :
+=======
+- example :
+>>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
 
   await this.VotingInstance.addWhiteList(owner);
 
@@ -72,9 +84,15 @@ Comment vérifie qu'un test est sensé echouer ?
   await this.VotingInstance.sendProposal("Salut", { from: owner });
 
   await this.VotingInstance.endProposalsSession();
+<<<<<<< HEAD
 
   //------On va à l'étape qu'on veut
 
   //------Ensuite on appelle la fonction qui est sensé echouer avec en second arguments le message d'erreur attendu
 
+=======
+  //------On va à l'étape qu'on veut
+
+  //------Ensuite on appelle la fonction qui est sensé echouer avec en second arguments le message d'erreur attendu
+>>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   await expectRevert(this.VotingInstance.sendVote(1, { from: owner }), "The session doesn't have started yet");
