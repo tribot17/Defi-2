@@ -23,18 +23,11 @@ contract("Voting", function (accounts) {
     let statusAfter = await this.VotingInstance.workflowStatus();
 
     //statusBefore retourne un big number il faut donc convertir
-<<<<<<< HEAD
     expectEvent(receipt, "WorkflowStatusChange", {
       previousStatus: new BN(Voting.WorkflowStatus.VotingRegister),
       newStatus: new BN(Voting.WorkflowStatus.ProposalsRegistrationStarted),
     });
     expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1)));
-=======
-     expectEvent(receipt, "WorkflowStatusChange" ,{previousStatus:new BN(Voting.WorkflowStatus.VotingRegister)
-      ,newStatus:new BN(Voting.WorkflowStatus.ProposalsRegistrationStarted)});
-    expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1))
-    );
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Passe de l'état ProposalsRegistrationStarted à ProposalsRegistrationEnded", async function () {
@@ -46,7 +39,6 @@ contract("Voting", function (accounts) {
 
     let statusAfter = await this.VotingInstance.workflowStatus();
 
-<<<<<<< HEAD
     expectEvent(receipt, "WorkflowStatusChange", {
       previousStatus: new BN(
         Voting.WorkflowStatus.ProposalsRegistrationStarted
@@ -54,12 +46,6 @@ contract("Voting", function (accounts) {
       newStatus: new BN(Voting.WorkflowStatus.ProposalsRegistrationEnded),
     });
     expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1)));
-=======
-    expectEvent(receipt, "WorkflowStatusChange" ,{previousStatus:new BN(Voting.WorkflowStatus.ProposalsRegistrationStarted)
-      ,newStatus:new BN(Voting.WorkflowStatus.ProposalsRegistrationEnded)});
-    expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1))
-    );   
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Passe de l'état ProposalsRegistrationEnded à VotingSessionStarted", async function () {
@@ -72,18 +58,11 @@ contract("Voting", function (accounts) {
 
     let statusAfter = await this.VotingInstance.workflowStatus();
 
-<<<<<<< HEAD
     expectEvent(receipt, "WorkflowStatusChange", {
       previousStatus: new BN(Voting.WorkflowStatus.ProposalsRegistrationEnded),
       newStatus: new BN(Voting.WorkflowStatus.VotingSessionStarted),
     });
     expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1)));
-=======
-    expectEvent(receipt, "WorkflowStatusChange" ,{previousStatus:new BN(Voting.WorkflowStatus.ProposalsRegistrationEnded)
-      ,newStatus:new BN(Voting.WorkflowStatus.VotingSessionStarted)});
-      expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1))
-      ); 
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Passe de l'état VotingSessionStarted à VotingSessionEnded", async function () {
@@ -95,22 +74,17 @@ contract("Voting", function (accounts) {
     let receipt = await this.VotingInstance.endVoteSession();
     let statusAfter = await this.VotingInstance.workflowStatus();
 
-<<<<<<< HEAD
     expectEvent(receipt, "WorkflowStatusChange", {
       previousStatus: new BN(Voting.WorkflowStatus.VotingSessionStarted),
       newStatus: new BN(Voting.WorkflowStatus.VotingSessionEnded),
     });
     expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1)));
   });
-=======
-    let receipt = await this.VotingInstance.endVoteSession();
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
 
   it("Echoue de passer de l'état VotingSessionStarted à VotingSessionEnded (Mauvaise étape)", async function () {
     await this.VotingInstance.startProposalsSession();
     await this.VotingInstance.endProposalsSession();
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.startProposalsSession(),
       "Wrong step"
@@ -130,29 +104,6 @@ contract("Voting", function (accounts) {
       this.VotingInstance.startProposalsSession(),
       "The session is already started"
     );
-=======
-    expectEvent(receipt, "WorkflowStatusChange" ,{previousStatus:new BN(Voting.WorkflowStatus.VotingSessionStarted)
-      ,newStatus:new BN(Voting.WorkflowStatus.VotingSessionEnded)});
-      expect(statusBefore).to.be.a.bignumber.equal(statusAfter.sub(new BN(1))
-      ); 
-  });
-
-  it("Echoue de passer de l'état VotingSessionStarted à VotingSessionEnded (Mauvaise étape)", async function() {
-    await this.VotingInstance.startProposalsSession();
-    await this.VotingInstance.endProposalsSession();
-
-    await expectRevert(this.VotingInstance.startProposalsSession(),"Wrong step");
-  });
-
-  it("Echoue de passer de l'état VotingRegister à ProposalsRegisters (Not owner)", async function() {
-    let statusBefore = await this.VotingInstance.workflowStatus();
-    await expectRevert(this.VotingInstance.startProposalsSession({from:voter}),"Ownable: caller is not the owner");
-  });
-
-  it("Echoue de passer de l'état VotingRegister à ProposalsRegisters (Mauvaise étape)", async function() {
-    await this.VotingInstance.startProposalsSession();
-    await expectRevert(this.VotingInstance.startProposalsSession(),"The session is already started");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   //----------------------------------------------------------------------------------------//
@@ -166,7 +117,6 @@ contract("Voting", function (accounts) {
 
     expectEvent(receipt, "VoterRegistered", { voterAddress: owner });
     expect(data[0]).to.be.equal(true);
-    expectEvent(receipt, "VoterRegistered" ,{voterAddress:owner});
     expect(status).to.be.a.bignumber.equal(
       await new BN(Voting.enums.WorkflowStatus.RegisteringVoters)
     );
@@ -178,22 +128,14 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.addWhiteList(owner);
     await this.VotingInstance.startProposalsSession();
 
-<<<<<<< HEAD
     let receipt = await this.VotingInstance.sendProposal("Salut", {
       from: owner,
     });
-=======
-    let receipt = await this.VotingInstance.sendProposal("Salut", { from: owner });
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
 
     let propsalIdAfter = (await this.VotingInstance.ProposalMap(1))[1];
     let propsalAfter = (await this.VotingInstance.ProposalMap(1))[0];
 
-<<<<<<< HEAD
     expectEvent(receipt, "ProposalRegistered", { proposalId: new BN(1) });
-=======
-    expectEvent(receipt, "ProposalRegistered" ,{proposalId:new BN(1)});
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
     expect(propsalAfter).to.be.equal("Salut");
     expect(propsalIdAfter).to.be.a.bignumber.equal(propsalIdBefore);
     expect(status).to.be.a.bignumber.equal(
@@ -229,11 +171,7 @@ contract("Voting", function (accounts) {
     let votedCountAfter = (await this.VotingInstance.ProposalMap(1))[1];
     let winner = await this.VotingInstance.winner();
 
-<<<<<<< HEAD
     expectEvent(receipt, "Voted", { voter: owner, proposalId: new BN(1) });
-=======
-    expectEvent(receipt, "Voted", {voter: owner, proposalId:new BN(1)});
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
     expect(hasVotedAfter).to.be.equal(true);
     expect(votedCountAfter).to.be.bignumber.equal(
       votedCountBefore.add(new BN(1))
@@ -309,55 +247,39 @@ contract("Voting", function (accounts) {
       from: owner,
     });
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.addWhiteList(owner),
       "This address is already whiteListed"
     );
-=======
-    await expectRevert(this.VotingInstance.addWhiteList(owner),"This address is already whiteListed");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'ajoute pas de proposition (la session n'a pas commencée)", async function () {
     await this.VotingInstance.addWhiteList(owner);
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.sendProposal("Salut", { from: owner }),
       "The proposal session doesn't started yet"
     );
-=======
-    await expectRevert(this.VotingInstance.sendProposal("Salut", { from: owner }),"The proposal session doesn't started yet");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'ajoute pas de proposition (la proposition n'est pas valide)", async function () {
     await this.VotingInstance.addWhiteList(owner);
     await this.VotingInstance.startProposalsSession();
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.sendProposal("", { from: owner }),
       "The proposal description is not valid"
     );
-=======
-    await expectRevert(this.VotingInstance.sendProposal("", { from: owner }),"The proposal description is not valid");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'ajoute pas de proposition (l'adresse n'est pas whitelistée)", async function () {
     await this.VotingInstance.addWhiteList(owner);
     await this.VotingInstance.startProposalsSession();
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.sendProposal("Salut", { from: voter }),
       "You are not whitelisted"
     );
-=======
-    await expectRevert(this.VotingInstance.sendProposal("Salut", { from: voter }),"You are not whitelisted");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Ne Retourne pas de proposition (la prosition n'existe pas)", async function () {
@@ -365,14 +287,10 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.startProposalsSession();
     await this.VotingInstance.sendProposal("Salut", { from: owner });
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.seeProposition(0),
       "The proposal doesn't exist"
     );
-=======
-    await expectRevert(this.VotingInstance.seeProposition(0),"The proposal doesn't exist");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'envoie pas de nouveau vote (l'adresse n'est pas whitelisté)", async function () {
@@ -381,16 +299,11 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.sendProposal("Salut", { from: owner });
     await this.VotingInstance.endProposalsSession();
     await this.VotingInstance.startVoteSession();
-<<<<<<< HEAD
 
     await expectRevert(
       this.VotingInstance.sendVote(1, { from: voter }),
       "You are not whitelisted"
     );
-=======
-    
-    await expectRevert(this.VotingInstance.sendVote(1, { from: voter }), "You are not whitelisted");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'envoie pas de nouveau vote (déjà voté)", async function () {
@@ -400,16 +313,11 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.endProposalsSession();
     await this.VotingInstance.startVoteSession();
     await this.VotingInstance.sendVote(1, { from: owner });
-<<<<<<< HEAD
 
     await expectRevert(
       this.VotingInstance.sendVote(1, { from: owner }),
       "You have already voted"
     );
-=======
-    
-    await expectRevert(this.VotingInstance.sendVote(1, { from: owner }), "You have already voted");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'envoie pas de nouveau vote (la session n'a pas commencé)", async function () {
@@ -417,16 +325,11 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.startProposalsSession();
     await this.VotingInstance.sendProposal("Salut", { from: owner });
     await this.VotingInstance.endProposalsSession();
-<<<<<<< HEAD
 
     await expectRevert(
       this.VotingInstance.sendVote(1, { from: owner }),
       "The session doesn't have started yet"
     );
-=======
-    
-    await expectRevert(this.VotingInstance.sendVote(1, { from: owner }), "The session doesn't have started yet");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("N'envoie pas de nouveau vote (proposition non valide)", async function () {
@@ -436,18 +339,12 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.endProposalsSession();
     await this.VotingInstance.startVoteSession();
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.sendVote(2, { from: owner }),
       "The proposal doesn't exist"
     );
   });
 
-=======
-    await expectRevert(this.VotingInstance.sendVote(2, { from: owner }), "The proposal doesn't exist");
-  });
-   
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   it("Ne retourne pas le nombre de vote d'une propostion (mauvaise étape)", async function () {
     await this.VotingInstance.addWhiteList(owner);
     await this.VotingInstance.startProposalsSession();
@@ -456,14 +353,10 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.startVoteSession();
     await this.VotingInstance.sendVote(1, { from: owner });
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.getStats(1, { from: owner }),
       "The session is not ended"
     );
-=======
-    await expectRevert(this.VotingInstance.getStats(1, { from: owner }),"The session is not ended");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Ne retourne pas le nombre de vote d'une propostion (le contract n'est pas appellé par l'owner)", async function () {
@@ -474,14 +367,10 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.startVoteSession();
     await this.VotingInstance.sendVote(1, { from: owner });
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.getStats(1, { from: voter }),
       "Ownable: caller is not the owner"
     );
-=======
-    await expectRevert(this.VotingInstance.getStats(1, { from: voter }),"Ownable: caller is not the owner");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Ne choisi pas un gagnant (le contract n'est pas appellé par l'owner)", async function () {
@@ -493,14 +382,10 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.sendVote(1, { from: owner });
     await this.VotingInstance.endVoteSession();
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.setWinner(1, { from: voter }),
       "Ownable: caller is not the owner"
     );
-=======
-    await expectRevert(this.VotingInstance.setWinner(1,{from : voter }),"Ownable: caller is not the owner");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Ne choisi pas un gagnant (la propostion n'est pas bonne)", async function () {
@@ -512,14 +397,10 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.sendVote(1, { from: owner });
     await this.VotingInstance.endVoteSession();
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.setWinner(1, { from: voter }),
       "Ownable: caller is not the owner"
     );
-=======
-    await expectRevert(this.VotingInstance.setWinner(1,{from : voter }),"Ownable: caller is not the owner");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Ne retourne pas le gagnant (pas la bonne étape)", async function () {
@@ -530,14 +411,10 @@ contract("Voting", function (accounts) {
     await this.VotingInstance.startVoteSession();
     await this.VotingInstance.sendVote(1, { from: owner });
 
-<<<<<<< HEAD
     await expectRevert(
       this.VotingInstance.setWinner(1),
       "The session is not ended."
     );
-=======
-    await expectRevert(this.VotingInstance.setWinner(1),"The session is not ended.");
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
   });
 
   it("Retourne pour quoi a voter une addresse", async function () {
@@ -554,7 +431,6 @@ contract("Voting", function (accounts) {
   });
 
   it("Ne retourne pas pour quoi a voter une addresse (l'adresse n'a pas voté)", async function () {
-<<<<<<< HEAD
     await this.VotingInstance.addWhiteList(owner);
     await this.VotingInstance.startProposalsSession();
     await this.VotingInstance.sendProposal("Salut", { from: owner });
@@ -568,15 +444,3 @@ contract("Voting", function (accounts) {
     );
   });
 });
-=======
-      await this.VotingInstance.addWhiteList(owner);
-      await this.VotingInstance.startProposalsSession();
-      await this.VotingInstance.sendProposal("Salut", { from: owner });
-      await this.VotingInstance.endProposalsSession();
-      await this.VotingInstance.startVoteSession();
-      await this.VotingInstance.sendVote(1, { from: owner });
-
-      await expectRevert(this.VotingInstance.votedFor(voter),"The address hasn't voted yet");
-    })
-  });
->>>>>>> 940a906a4a00cc33d12681a24730120943b6543d
